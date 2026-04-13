@@ -11,200 +11,109 @@
 
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #F7F6FB;
-    color: #2D2D3A;
+    background: #F4F4F5;
+    color: #18181B;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
   }
 
   .header {
-    background: linear-gradient(135deg, #7C6BC4 0%, #E07BAA 100%);
-    padding: 24px 32px;
+    background: #18181B;
+    padding: 0 32px;
+    height: 56px;
     color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
     flex-shrink: 0;
+    border-bottom: 1px solid #27272A;
   }
-  .header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-  .header h1 span { font-weight: 300; opacity: 0.85; }
-  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .header-icon {
+    width: 28px; height: 28px; background: #3B82F6; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: white; letter-spacing: -0.5px;
+  }
+  .header h1 { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; color: #FAFAFA; }
+  .header h1 .sep { color: #52525B; margin: 0 2px; font-weight: 400; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
   .header-btn {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 8px;
-    padding: 8px 16px;
-    transition: background 0.2s;
-    cursor: pointer;
-    font-family: inherit;
+    color: #A1A1AA; text-decoration: none; font-size: 13px; font-weight: 500;
+    background: transparent; border: 1px solid #3F3F46; border-radius: 6px;
+    padding: 6px 12px; transition: all 0.15s; cursor: pointer; font-family: inherit;
   }
-  .header-btn:hover { background: rgba(255,255,255,0.35); }
-  .header-btn.primary { background: rgba(255,255,255,0.95); color: #7C6BC4; font-weight: 600; border-color: transparent; }
-  .header-btn.primary:hover { background: white; }
+  .header-btn:hover { color: #FAFAFA; border-color: #52525B; background: #27272A; }
+  .header-btn.primary { background: #3B82F6; color: white; border-color: #3B82F6; font-weight: 600; }
+  .header-btn.primary:hover { background: #2563EB; border-color: #2563EB; }
 
-  /* Add Event Panel */
   .add-event-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-    z-index: 100;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    z-index: 100; justify-content: center; align-items: center; padding: 20px;
   }
   .add-event-overlay.open { display: flex; }
 
   .add-event-panel {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.18);
-    width: 100%;
-    max-width: 460px;
-    overflow: hidden;
-    animation: slideUp 0.25s ease-out;
+    background: #FFFFFF; border-radius: 12px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.06);
+    width: 100%; max-width: 440px; overflow: hidden; animation: modalIn 0.2s ease-out;
   }
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.97) translateY(8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
   }
 
-  .panel-header {
-    background: linear-gradient(135deg, #7C6BC4 0%, #E07BAA 100%);
-    padding: 20px 24px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .panel-header h2 { font-size: 18px; font-weight: 600; }
+  .panel-header { padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: center; }
+  .panel-header h2 { font-size: 16px; font-weight: 600; color: #18181B; }
   .panel-close {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
+    background: none; border: none; color: #A1A1AA; width: 28px; height: 28px;
+    border-radius: 6px; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all 0.15s;
   }
-  .panel-close:hover { background: rgba(255,255,255,0.35); }
+  .panel-close:hover { background: #F4F4F5; color: #18181B; }
+  .panel-body { padding: 20px 24px; }
 
-  .panel-body { padding: 24px; }
-
-  .field { margin-bottom: 16px; }
+  .field { margin-bottom: 14px; }
   .field:last-child { margin-bottom: 0; }
-  .field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #5A5A72;
-    margin-bottom: 6px;
-  }
+  .field label { display: block; font-size: 13px; font-weight: 500; color: #71717A; margin-bottom: 5px; }
   .field input, .field textarea, .field select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid #E0DFE8;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
-    color: #2D2D3A;
-    transition: border-color 0.2s;
-    background: #FAFAFD;
+    width: 100%; padding: 8px 10px; border: 1px solid #E4E4E7; border-radius: 6px;
+    font-size: 14px; font-family: inherit; color: #18181B; transition: all 0.15s; background: white;
   }
   .field input:focus, .field textarea:focus, .field select:focus {
-    outline: none;
-    border-color: #7C6BC4;
-    background: white;
+    outline: none; border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
   }
-  .field textarea { resize: vertical; min-height: 60px; }
-
-  .field-row { display: flex; gap: 12px; }
+  .field textarea { resize: vertical; min-height: 56px; }
+  .field-row { display: flex; gap: 10px; }
   .field-row .field { flex: 1; }
 
-  .all-day-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-  .all-day-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: #7C6BC4; }
-  .all-day-row label { font-size: 13px; font-weight: 500; color: #5A5A72; margin: 0; }
+  .all-day-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .all-day-row input[type="checkbox"] { width: 15px; height: 15px; accent-color: #3B82F6; }
+  .all-day-row label { font-size: 13px; font-weight: 500; color: #71717A; margin: 0; cursor: pointer; }
 
-  .panel-footer {
-    padding: 0 24px 24px;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-  }
-  .btn {
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: none;
-  }
-  .btn-cancel { background: #F0EFF5; color: #5A5A72; }
-  .btn-cancel:hover { background: #E4E3EC; }
-  .btn-add { background: linear-gradient(135deg, #7C6BC4, #E07BAA); color: white; }
-  .btn-add:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,107,196,0.3); }
+  .panel-footer { padding: 0 24px 20px; display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid #F4F4F5; padding-top: 16px; }
+  .btn { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.15s; border: none; }
+  .btn-cancel { background: #F4F4F5; color: #52525B; }
+  .btn-cancel:hover { background: #E4E4E7; }
+  .btn-add { background: #3B82F6; color: white; }
+  .btn-add:hover { background: #2563EB; }
 
-  /* Main Layout */
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    max-width: 1200px;
-    width: 100%;
-    margin: 24px auto;
-    min-height: 0;
-  }
+  .main-content { flex: 1; display: flex; flex-direction: column; max-width: 1200px; width: 100%; margin: 20px auto; padding: 0 20px; min-height: 0; }
 
   .calendar-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    min-height: 0;
+    flex: 1; display: flex; flex-direction: column; background: white; border-radius: 10px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04); min-height: 0;
   }
+  .calendar-wrapper iframe { flex: 1; width: 100%; min-height: 620px; border: none; }
 
-  .calendar-wrapper iframe {
-    flex: 1;
-    width: 100%;
-    min-height: 600px;
-    border: none;
-  }
-
-  .footer {
-    text-align: center;
-    padding: 16px;
-    font-size: 12px;
-    color: #8888A0;
-    flex-shrink: 0;
-  }
+  .footer { text-align: center; padding: 14px; font-size: 12px; color: #A1A1AA; flex-shrink: 0; }
 
   @media (max-width: 768px) {
-    .header { padding: 16px; }
-    .header h1 { font-size: 20px; }
-    .main-content { margin: 12px; }
-    .calendar-wrapper { border-radius: 12px; }
+    .header { padding: 0 16px; }
+    .header h1 { font-size: 14px; }
+    .main-content { margin: 12px auto; padding: 0 12px; }
+    .calendar-wrapper { border-radius: 8px; }
     .calendar-wrapper iframe { min-height: 500px; }
     .add-event-panel { max-width: 100%; }
     .field-row { flex-direction: column; gap: 0; }
@@ -214,7 +123,10 @@
 <body>
 
 <div class="header">
-  <h1>Ryan & Camille <span>Calendar</span></h1>
+  <div class="header-left">
+    <div class="header-icon">RC</div>
+    <h1>Ryan & Camille<span class="sep">/</span>Calendar</h1>
+  </div>
   <div class="header-actions">
     <a class="header-btn" href="https://calendar.google.com/calendar/u/0/r?cid=76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b@group.calendar.google.com" target="_blank">Open in Google Calendar</a>
     <button class="header-btn primary" onclick="openAddEvent()">+ Add Event</button>
@@ -224,12 +136,12 @@
 <div class="add-event-overlay" id="addEventOverlay" onclick="if(event.target===this)closeAddEvent()">
   <div class="add-event-panel">
     <div class="panel-header">
-      <h2>Add Event</h2>
+      <h2>New Event</h2>
       <button class="panel-close" onclick="closeAddEvent()">&times;</button>
     </div>
     <div class="panel-body">
       <div class="field">
-        <label for="evTitle">Event Title</label>
+        <label for="evTitle">Title</label>
         <input type="text" id="evTitle" placeholder="Dinner with friends, Doctor appt..." autofocus>
       </div>
       <div class="all-day-row">
@@ -237,31 +149,19 @@
         <label for="evAllDay">All-day event</label>
       </div>
       <div class="field-row" id="dateTimeRow">
-        <div class="field">
-          <label for="evStart">Start</label>
-          <input type="datetime-local" id="evStart">
-        </div>
-        <div class="field">
-          <label for="evEnd">End</label>
-          <input type="datetime-local" id="evEnd">
-        </div>
+        <div class="field"><label for="evStart">Start</label><input type="datetime-local" id="evStart"></div>
+        <div class="field"><label for="evEnd">End</label><input type="datetime-local" id="evEnd"></div>
       </div>
       <div class="field-row" id="dateOnlyRow" style="display:none">
-        <div class="field">
-          <label for="evStartDate">Start Date</label>
-          <input type="date" id="evStartDate">
-        </div>
-        <div class="field">
-          <label for="evEndDate">End Date</label>
-          <input type="date" id="evEndDate">
-        </div>
+        <div class="field"><label for="evStartDate">Start Date</label><input type="date" id="evStartDate"></div>
+        <div class="field"><label for="evEndDate">End Date</label><input type="date" id="evEndDate"></div>
       </div>
       <div class="field">
-        <label for="evLocation">Location <span style="font-weight:400;color:#aaa">(optional)</span></label>
+        <label for="evLocation">Location <span style="font-weight:400;color:#D4D4D8">(optional)</span></label>
         <input type="text" id="evLocation" placeholder="Restaurant name, address...">
       </div>
       <div class="field">
-        <label for="evNotes">Notes <span style="font-weight:400;color:#aaa">(optional)</span></label>
+        <label for="evNotes">Notes <span style="font-weight:400;color:#D4D4D8">(optional)</span></label>
         <textarea id="evNotes" rows="2" placeholder="Any details..."></textarea>
       </div>
     </div>
@@ -278,9 +178,7 @@
   </div>
 </div>
 
-<div class="footer">
-  Ryan & Camille Shared Calendar &middot; Eastern Time
-</div>
+<div class="footer">Ryan & Camille &middot; Eastern Time</div>
 
 <script>
   const CAL_ID = '76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b@group.calendar.google.com';
@@ -304,9 +202,7 @@
     setTimeout(() => document.getElementById('evTitle').focus(), 100);
   }
 
-  function closeAddEvent() {
-    document.getElementById('addEventOverlay').classList.remove('open');
-  }
+  function closeAddEvent() { document.getElementById('addEventOverlay').classList.remove('open'); }
 
   function toggleAllDay() {
     const allDay = document.getElementById('evAllDay').checked;
@@ -322,29 +218,18 @@
 
   function toGCalDate(dateStr, isEnd) {
     const d = dateStr.replace(/-/g, '');
-    if (isEnd) {
-      const dt = new Date(dateStr);
-      dt.setDate(dt.getDate() + 1);
-      return dt.toISOString().slice(0, 10).replace(/-/g, '');
-    }
+    if (isEnd) { const dt = new Date(dateStr); dt.setDate(dt.getDate() + 1); return dt.toISOString().slice(0, 10).replace(/-/g, ''); }
     return d;
   }
 
-  function toGCalDateTime(dtStr) {
-    return dtStr.replace(/[-:]/g, '').replace('T', 'T') + '00';
-  }
+  function toGCalDateTime(dtStr) { return dtStr.replace(/[-:]/g, '').replace('T', 'T') + '00'; }
 
   function submitEvent() {
     const title = document.getElementById('evTitle').value.trim();
-    if (!title) {
-      document.getElementById('evTitle').style.borderColor = '#E07BAA';
-      document.getElementById('evTitle').focus();
-      return;
-    }
+    if (!title) { document.getElementById('evTitle').style.borderColor = '#EF4444'; document.getElementById('evTitle').focus(); return; }
 
     const allDay = document.getElementById('evAllDay').checked;
     let dates;
-
     if (allDay) {
       const s = document.getElementById('evStartDate').value;
       const e = document.getElementById('evEndDate').value || s;
@@ -358,30 +243,16 @@
 
     const location = document.getElementById('evLocation').value.trim();
     const notes = document.getElementById('evNotes').value.trim();
-
-    const params = new URLSearchParams({
-      action: 'TEMPLATE',
-      text: title,
-      dates: dates,
-      ctz: 'America/New_York',
-      src: CAL_ID
-    });
+    const params = new URLSearchParams({ action: 'TEMPLATE', text: title, dates: dates, ctz: 'America/New_York', src: CAL_ID });
     if (location) params.set('location', location);
     if (notes) params.set('details', notes);
 
-    const url = 'https://calendar.google.com/calendar/render?' + params.toString();
-    window.open(url, '_blank');
+    window.open('https://calendar.google.com/calendar/render?' + params.toString(), '_blank');
     closeAddEvent();
-
-    setTimeout(() => {
-      const frame = document.getElementById('calFrame');
-      frame.src = frame.src;
-    }, 5000);
+    setTimeout(() => { const f = document.getElementById('calFrame'); f.src = f.src; }, 5000);
   }
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAddEvent();
-  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAddEvent(); });
 </script>
 
 </body>
