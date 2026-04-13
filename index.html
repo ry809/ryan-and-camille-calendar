@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ryan & Camille — Shared Calendar</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F7F6FB;
+    color: #2D2D3A;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    background: linear-gradient(135deg, #7C6BC4 0%, #E07BAA 100%);
+    padding: 24px 32px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+  .header h1 span { font-weight: 300; opacity: 0.85; }
+  .header-links { display: flex; gap: 12px; align-items: center; }
+  .header-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: background 0.2s;
+  }
+  .header-links a:hover { background: rgba(255,255,255,0.35); }
+  .calendar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    width: 100%;
+    margin: 24px auto;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    min-height: 0;
+  }
+  .calendar-wrapper iframe {
+    flex: 1;
+    width: 100%;
+    min-height: 600px;
+    border: none;
+  }
+  .footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 12px;
+    color: #8888A0;
+    flex-shrink: 0;
+  }
+  @media (max-width: 768px) {
+    .header { padding: 16px; }
+    .calendar-wrapper { margin: 12px; border-radius: 12px; }
+    .calendar-wrapper iframe { min-height: 500px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Ryan & Camille <span>Calendar</span></h1>
+  <div class="header-links">
+    <a href="https://calendar.google.com/calendar/u/0/r?cid=76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b@group.calendar.google.com" target="_blank">Open in Google Calendar</a>
+  </div>
+</div>
+<div class="calendar-wrapper">
+  <iframe src="https://calendar.google.com/calendar/embed?src=76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=1&mode=MONTH" loading="lazy"></iframe>
+</div>
+<div class="footer">
+  Ryan & Camille Shared Calendar &middot; Eastern Time
+</div>
+</body>
+</html>
