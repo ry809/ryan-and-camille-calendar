@@ -6,7 +6,9 @@
 <title>Ryan & Camille — Shared Calendar</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: #F7F6FB;
@@ -15,6 +17,7 @@
     display: flex;
     flex-direction: column;
   }
+
   .header {
     background: linear-gradient(135deg, #7C6BC4 0%, #E07BAA 100%);
     padding: 24px 32px;
@@ -28,8 +31,8 @@
   }
   .header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
   .header h1 span { font-weight: 300; opacity: 0.85; }
-  .header-links { display: flex; gap: 12px; align-items: center; }
-  .header-links a {
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .header-btn {
     color: white;
     text-decoration: none;
     font-size: 14px;
@@ -39,27 +42,156 @@
     border-radius: 8px;
     padding: 8px 16px;
     transition: background 0.2s;
+    cursor: pointer;
+    font-family: inherit;
   }
-  .header-links a:hover { background: rgba(255,255,255,0.35); }
-  .calendar-wrapper {
+  .header-btn:hover { background: rgba(255,255,255,0.35); }
+  .header-btn.primary { background: rgba(255,255,255,0.95); color: #7C6BC4; font-weight: 600; border-color: transparent; }
+  .header-btn.primary:hover { background: white; }
+
+  /* Add Event Panel */
+  .add-event-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .add-event-overlay.open { display: flex; }
+
+  .add-event-panel {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+    width: 100%;
+    max-width: 460px;
+    overflow: hidden;
+    animation: slideUp 0.25s ease-out;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-header {
+    background: linear-gradient(135deg, #7C6BC4 0%, #E07BAA 100%);
+    padding: 20px 24px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .panel-header h2 { font-size: 18px; font-weight: 600; }
+  .panel-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .panel-close:hover { background: rgba(255,255,255,0.35); }
+
+  .panel-body { padding: 24px; }
+
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5A5A72;
+    margin-bottom: 6px;
+  }
+  .field input, .field textarea, .field select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #E0DFE8;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #2D2D3A;
+    transition: border-color 0.2s;
+    background: #FAFAFD;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    outline: none;
+    border-color: #7C6BC4;
+    background: white;
+  }
+  .field textarea { resize: vertical; min-height: 60px; }
+
+  .field-row { display: flex; gap: 12px; }
+  .field-row .field { flex: 1; }
+
+  .all-day-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .all-day-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: #7C6BC4; }
+  .all-day-row label { font-size: 13px; font-weight: 500; color: #5A5A72; margin: 0; }
+
+  .panel-footer {
+    padding: 0 24px 24px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-cancel { background: #F0EFF5; color: #5A5A72; }
+  .btn-cancel:hover { background: #E4E3EC; }
+  .btn-add { background: linear-gradient(135deg, #7C6BC4, #E07BAA); color: white; }
+  .btn-add:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,107,196,0.3); }
+
+  /* Main Layout */
+  .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     max-width: 1200px;
     width: 100%;
     margin: 24px auto;
+    min-height: 0;
+  }
+
+  .calendar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     background: white;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     min-height: 0;
   }
+
   .calendar-wrapper iframe {
     flex: 1;
     width: 100%;
     min-height: 600px;
     border: none;
   }
+
   .footer {
     text-align: center;
     padding: 16px;
@@ -67,25 +199,190 @@
     color: #8888A0;
     flex-shrink: 0;
   }
+
   @media (max-width: 768px) {
     .header { padding: 16px; }
-    .calendar-wrapper { margin: 12px; border-radius: 12px; }
+    .header h1 { font-size: 20px; }
+    .main-content { margin: 12px; }
+    .calendar-wrapper { border-radius: 12px; }
     .calendar-wrapper iframe { min-height: 500px; }
+    .add-event-panel { max-width: 100%; }
+    .field-row { flex-direction: column; gap: 0; }
   }
 </style>
 </head>
 <body>
+
 <div class="header">
   <h1>Ryan & Camille <span>Calendar</span></h1>
-  <div class="header-links">
-    <a href="https://calendar.google.com/calendar/u/0/r?cid=76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b@group.calendar.google.com" target="_blank">Open in Google Calendar</a>
+  <div class="header-actions">
+    <a class="header-btn" href="https://calendar.google.com/calendar/u/0/r?cid=76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b@group.calendar.google.com" target="_blank">Open in Google Calendar</a>
+    <button class="header-btn primary" onclick="openAddEvent()">+ Add Event</button>
   </div>
 </div>
-<div class="calendar-wrapper">
-  <iframe src="https://calendar.google.com/calendar/embed?src=76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=1&mode=MONTH" loading="lazy"></iframe>
+
+<div class="add-event-overlay" id="addEventOverlay" onclick="if(event.target===this)closeAddEvent()">
+  <div class="add-event-panel">
+    <div class="panel-header">
+      <h2>Add Event</h2>
+      <button class="panel-close" onclick="closeAddEvent()">&times;</button>
+    </div>
+    <div class="panel-body">
+      <div class="field">
+        <label for="evTitle">Event Title</label>
+        <input type="text" id="evTitle" placeholder="Dinner with friends, Doctor appt..." autofocus>
+      </div>
+      <div class="all-day-row">
+        <input type="checkbox" id="evAllDay" onchange="toggleAllDay()">
+        <label for="evAllDay">All-day event</label>
+      </div>
+      <div class="field-row" id="dateTimeRow">
+        <div class="field">
+          <label for="evStart">Start</label>
+          <input type="datetime-local" id="evStart">
+        </div>
+        <div class="field">
+          <label for="evEnd">End</label>
+          <input type="datetime-local" id="evEnd">
+        </div>
+      </div>
+      <div class="field-row" id="dateOnlyRow" style="display:none">
+        <div class="field">
+          <label for="evStartDate">Start Date</label>
+          <input type="date" id="evStartDate">
+        </div>
+        <div class="field">
+          <label for="evEndDate">End Date</label>
+          <input type="date" id="evEndDate">
+        </div>
+      </div>
+      <div class="field">
+        <label for="evLocation">Location <span style="font-weight:400;color:#aaa">(optional)</span></label>
+        <input type="text" id="evLocation" placeholder="Restaurant name, address...">
+      </div>
+      <div class="field">
+        <label for="evNotes">Notes <span style="font-weight:400;color:#aaa">(optional)</span></label>
+        <textarea id="evNotes" rows="2" placeholder="Any details..."></textarea>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn btn-cancel" onclick="closeAddEvent()">Cancel</button>
+      <button class="btn btn-add" onclick="submitEvent()">Add to Calendar</button>
+    </div>
+  </div>
 </div>
+
+<div class="main-content">
+  <div class="calendar-wrapper">
+    <iframe id="calFrame" src="https://calendar.google.com/calendar/embed?src=76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=1&mode=MONTH" loading="lazy"></iframe>
+  </div>
+</div>
+
 <div class="footer">
   Ryan & Camille Shared Calendar &middot; Eastern Time
 </div>
+
+<script>
+  const CAL_ID = '76f6b314bb46954063ac30ced2d1af51d3ca1143021af31edb22078264efb03b@group.calendar.google.com';
+
+  function openAddEvent() {
+    const now = new Date();
+    now.setMinutes(0, 0, 0);
+    now.setHours(now.getHours() + 1);
+    const end = new Date(now.getTime() + 60 * 60 * 1000);
+    document.getElementById('evStart').value = toLocalISO(now);
+    document.getElementById('evEnd').value = toLocalISO(end);
+    const todayStr = now.toISOString().slice(0, 10);
+    document.getElementById('evStartDate').value = todayStr;
+    document.getElementById('evEndDate').value = todayStr;
+    document.getElementById('evTitle').value = '';
+    document.getElementById('evLocation').value = '';
+    document.getElementById('evNotes').value = '';
+    document.getElementById('evAllDay').checked = false;
+    toggleAllDay();
+    document.getElementById('addEventOverlay').classList.add('open');
+    setTimeout(() => document.getElementById('evTitle').focus(), 100);
+  }
+
+  function closeAddEvent() {
+    document.getElementById('addEventOverlay').classList.remove('open');
+  }
+
+  function toggleAllDay() {
+    const allDay = document.getElementById('evAllDay').checked;
+    document.getElementById('dateTimeRow').style.display = allDay ? 'none' : 'flex';
+    document.getElementById('dateOnlyRow').style.display = allDay ? 'flex' : 'none';
+  }
+
+  function toLocalISO(d) {
+    const off = d.getTimezoneOffset();
+    const local = new Date(d.getTime() - off * 60000);
+    return local.toISOString().slice(0, 16);
+  }
+
+  function toGCalDate(dateStr, isEnd) {
+    const d = dateStr.replace(/-/g, '');
+    if (isEnd) {
+      const dt = new Date(dateStr);
+      dt.setDate(dt.getDate() + 1);
+      return dt.toISOString().slice(0, 10).replace(/-/g, '');
+    }
+    return d;
+  }
+
+  function toGCalDateTime(dtStr) {
+    return dtStr.replace(/[-:]/g, '').replace('T', 'T') + '00';
+  }
+
+  function submitEvent() {
+    const title = document.getElementById('evTitle').value.trim();
+    if (!title) {
+      document.getElementById('evTitle').style.borderColor = '#E07BAA';
+      document.getElementById('evTitle').focus();
+      return;
+    }
+
+    const allDay = document.getElementById('evAllDay').checked;
+    let dates;
+
+    if (allDay) {
+      const s = document.getElementById('evStartDate').value;
+      const e = document.getElementById('evEndDate').value || s;
+      dates = toGCalDate(s, false) + '/' + toGCalDate(e, true);
+    } else {
+      const s = document.getElementById('evStart').value;
+      const e = document.getElementById('evEnd').value;
+      if (!s || !e) { alert('Please fill in start and end times.'); return; }
+      dates = toGCalDateTime(s) + '/' + toGCalDateTime(e);
+    }
+
+    const location = document.getElementById('evLocation').value.trim();
+    const notes = document.getElementById('evNotes').value.trim();
+
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: title,
+      dates: dates,
+      ctz: 'America/New_York',
+      src: CAL_ID
+    });
+    if (location) params.set('location', location);
+    if (notes) params.set('details', notes);
+
+    const url = 'https://calendar.google.com/calendar/render?' + params.toString();
+    window.open(url, '_blank');
+    closeAddEvent();
+
+    setTimeout(() => {
+      const frame = document.getElementById('calFrame');
+      frame.src = frame.src;
+    }, 5000);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAddEvent();
+  });
+</script>
+
 </body>
 </html>
